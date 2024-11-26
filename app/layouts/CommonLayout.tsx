@@ -5,7 +5,7 @@ export default function CommonLayout({ children }: PropsWithChildren) {
   return (
     <>
       <Header isAuthPage />
-      <main className="pt-[50px]">{children}</main>
+      <main className="pt-[60px]">{children}</main>
     </>
   );
 }

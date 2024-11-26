@@ -1,3 +1,4 @@
+import Button from "~/ui/Button";
 import Container from "~/ui/Container";
 import LabelInput from "~/ui/LabelInput";
 import { Link } from "@remix-run/react";
@@ -17,7 +18,13 @@ export default function Login() {
   return (
     <form>
       <Container>
-        <LabelInput label="아이디" name="id" value={loginBody.id} />
+        <div className="text-2xl text-extrabold">로그인</div>
+        <LabelInput
+          label="아이디"
+          name="id"
+          value={loginBody.id}
+          onChange={handleInputChange}
+        />
         <LabelInput
           label="비밀번호"
           type="password"
@@ -25,8 +32,11 @@ export default function Login() {
           value={loginBody.pw}
           onChange={handleInputChange}
         />
+        <Button label="입력 완료" />
+        <Link className="text-center underline" to={authPaths.REGISTER}>
+          회원가입 하러가기
+        </Link>
       </Container>
-      <Link to={authPaths.REGISTER}>회원가입 하러가기</Link>
     </form>
   );
 }

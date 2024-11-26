@@ -9,12 +9,17 @@ export default function LabelInput({
   label,
   type = "text",
   className,
+
   ...props
 }: LabelInputProps) {
   return (
     <div className="flex flex-col gap-[10px]">
-      <label>{label}</label>
-      <input className={`${className} border`} type={type} {...props} />
+      <label className="text-xl text-bold">{label}</label>
+      <input
+        className={`${className} border border-darkGray rounded-[8px]`}
+        type={type}
+        {...props}
+      />
     </div>
   );
 }

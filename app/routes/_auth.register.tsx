@@ -1,3 +1,4 @@
+import Button from "~/ui/Button";
 import Container from "~/ui/Container";
 import LabelInput from "~/ui/LabelInput";
 import { Link } from "@remix-run/react";
@@ -18,7 +19,13 @@ export default function Register() {
   return (
     <form>
       <Container>
-        <LabelInput label="이름" name="name" value={registerBody.name} />
+        <div className="text-2xl text-extrabold">회원가입</div>
+        <LabelInput
+          label="이름"
+          name="name"
+          value={registerBody.name}
+          onChange={handleInputChange}
+        />
         <LabelInput label="아이디" name="id" value={registerBody.id} />
         <LabelInput
           label="비밀번호"
@@ -27,7 +34,10 @@ export default function Register() {
           value={registerBody.pw}
           onChange={handleInputChange}
         />
-        <Link to={authPaths.LOGIN}>로그인 하러가기</Link>
+        <Button label="입력 완료" />
+        <Link className="text-center underline" to={authPaths.LOGIN}>
+          로그인 하러가기
+        </Link>
       </Container>
     </form>
   );
