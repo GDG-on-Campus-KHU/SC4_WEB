@@ -1,5 +1,6 @@
 import { authPaths, packPaths } from "~/constants/paths";
 
+import Button from "~/ui/Button";
 import Layout from "~/layouts/CommonLayout";
 import { Link } from "@remix-run/react";
 import { LinkItemType } from "~/types";
@@ -22,11 +23,14 @@ export default function Index() {
   return (
     <Layout>
       <div className="flex flex-col">
-        {links.map(({ label, to }) => (
-          <Link key={to} to={to}>
-            {label}
-          </Link>
-        ))}
+        <div>가방사진이라도,,</div>
+        <div className="flex flex-col gap-[20px]">
+          {links.map(({ label, to }) => (
+            <Link key={to} to={to}>
+              <Button label={label} />
+            </Link>
+          ))}
+        </div>
       </div>
     </Layout>
   );

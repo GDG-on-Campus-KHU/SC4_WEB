@@ -29,29 +29,31 @@ export default function Header({ isAuthPage }: HeaderProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-[60px] p-[20px] flex items-center justify-between bg-yellow z-[99999]">
-      <Link to={packPaths.MAIN}>
-        <h1 className="text-4xl font-extrabold">
-          PACK<span className="text-white">+</span>MATE
-        </h1>
-      </Link>
-      {isOpenMenu ? (
-        <Menu
-          isAuthPage={isAuthPage}
-          onClose={() => {
-            setIsOpenMenu(false);
-            console.log("g");
-          }}
-        />
-      ) : (
-        <button
-          onClick={() => {
-            setIsOpenMenu(true);
-          }}
-        >
-          <img src={MenuIcon} alt="메뉴 아이콘" width={50} height={50} />
-        </button>
-      )}
+    <header className="fixed top-0 left-0 right-0 h-[60px] flex items-center px-[20px] bg-yellow z-[99999]">
+      <div className="m-auto w-full max-w-[500px] flex items-center justify-between">
+        <Link to={packPaths.MAIN}>
+          <h1 className="text-4xl font-extrabold">
+            PACK<span className="text-white">+</span>MATE
+          </h1>
+        </Link>
+        {isOpenMenu ? (
+          <Menu
+            isAuthPage={isAuthPage}
+            onClose={() => {
+              setIsOpenMenu(false);
+              console.log("g");
+            }}
+          />
+        ) : (
+          <button
+            onClick={() => {
+              setIsOpenMenu(true);
+            }}
+          >
+            <img src={MenuIcon} alt="메뉴 아이콘" width={50} height={50} />
+          </button>
+        )}
+      </div>
     </header>
   );
 }
