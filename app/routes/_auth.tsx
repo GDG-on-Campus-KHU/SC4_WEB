@@ -6,9 +6,9 @@ export default function AuthLayout() {
   return (
     <div>
       <Header isAuthPage />
-      <main className="h-screen pt-[60px] pb-[100px] flex justify-center items-center relative">
-        <Outlet />
+      <main className="h-screen overflow-hidden pt-[60px] pb-[100px] flex justify-center items-center relative">
         <BackgroundImage />
+        <Outlet />
       </main>
     </div>
   );

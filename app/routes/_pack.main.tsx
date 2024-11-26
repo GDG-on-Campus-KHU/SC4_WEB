@@ -1,3 +1,9 @@
+import Canvas from "~/ui/Canvas";
+
 export default function PackMain() {
-  return <div>생존가방을 체크</div>;
+  return (
+    <div className="overflow-hidden">
+      <Canvas />
+    </div>
+  );
 }
