@@ -1,5 +1,14 @@
+import AxiosInstance from "..";
+
 export type RegisterBodyType = {
-  id: string;
   name: string;
-  pw: string;
+  password: string;
 };
+
+export default async function postRegister(body: RegisterBodyType) {
+  const url = "/register";
+
+  const response = await AxiosInstance.post(url, body);
+
+  return response.data;
+}

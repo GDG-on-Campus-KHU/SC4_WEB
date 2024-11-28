@@ -1,23 +1,33 @@
+import postRegister, { RegisterBodyType } from "~/api/auth/postRegister";
+
 import Button from "~/ui/Button";
 import Container from "~/ui/Container";
 import LabelInput from "~/ui/LabelInput";
 import { Link } from "@remix-run/react";
-import { RegisterBodyType } from "~/api/auth/postRegister";
 import { authPaths } from "~/constants/paths";
 import { useInputChange } from "~/hooks/useInputChange";
 import { useState } from "react";
 
 export default function Register() {
   const [registerBody, setRegisterBody] = useState<RegisterBodyType>({
-    id: "",
     name: "",
-    pw: "",
+    password: "",
   });
 
   const handleInputChange = useInputChange(registerBody, setRegisterBody);
 
+  const onSubmitRegisterForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      await postRegister(registerBody);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={onSubmitRegisterForm}>
       <Container>
         <div className="text-2xl text-extrabold">회원가입</div>
         <LabelInput
@@ -26,12 +36,11 @@ export default function Register() {
           value={registerBody.name}
           onChange={handleInputChange}
         />
-        <LabelInput label="아이디" name="id" value={registerBody.id} />
         <LabelInput
           label="비밀번호"
           type="password"
-          name="pw"
-          value={registerBody.pw}
+          name="password"
+          value={registerBody.password}
           onChange={handleInputChange}
         />
         <Button label="입력 완료" />

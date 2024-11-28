@@ -1,4 +1,18 @@
+import AxiosInstance from "..";
+
 export type LoginBodyType = {
-  id: string;
-  pw: string;
+  name: string;
+  password: string;
 };
+
+export default async function postLogin(body: LoginBodyType) {
+  const url = "/login";
+
+  const response = await AxiosInstance.post(url, body);
+
+  const token = response.data.token;
+
+  localStorage.setItem("token", token);
+
+  return response.data;
+}
