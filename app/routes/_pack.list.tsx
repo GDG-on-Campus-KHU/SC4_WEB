@@ -11,32 +11,50 @@ export default function PackList() {
     useState(item_positions);
 
   const onClickSubmit = () => {
-    localStorage.setItem("supplies", JSON.stringify(currentSuppliesList));
+    sessionStorage.setItem("supplies", JSON.stringify(currentSuppliesList));
     navigate("/result");
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const suppliesString = localStorage.getItem("supplies");
+        const suppliesString = sessionStorage.getItem("supplies");
         const localSupplies = suppliesString ? JSON.parse(suppliesString) : [];
+        const token = sessionStorage.getItem("token");
 
-        const response = await getUserSupplies();
-        const updatedList = item_positions.map((item) => {
-          const localSupply = localSupplies.find(
-            (supply: ItemPositionType) => supply.name === item.name
-          );
+        let updatedList;
 
-          const existsFromLocal = localSupply ? localSupply.exists : false;
-          const existsFromServer =
-            response.supplies[item.name as keyof typeof response.supplies] ===
-            true;
+        if (token) {
+          const response = await getUserSupplies();
 
-          return {
-            ...item,
-            exists: existsFromLocal || existsFromServer,
-          };
-        });
+          updatedList = item_positions.map((item) => {
+            const localSupply = localSupplies.find(
+              (supply: ItemPositionType) => supply.name === item.name
+            );
+            const existsFromLocal = localSupply ? localSupply.exists : false;
+
+            const existsFromServer =
+              response.supplies[item.name as keyof typeof response.supplies] ===
+              true;
+
+            return {
+              ...item,
+              exists: existsFromLocal || existsFromServer,
+            };
+          });
+        } else {
+          updatedList = item_positions.map((item) => {
+            const localSupply = localSupplies.find(
+              (supply: ItemPositionType) => supply.name === item.name
+            );
+            const existsFromLocal = localSupply ? localSupply.exists : false;
+
+            return {
+              ...item,
+              exists: existsFromLocal,
+            };
+          });
+        }
 
         setCurrentSuppliesList(updatedList);
       } catch (error) {

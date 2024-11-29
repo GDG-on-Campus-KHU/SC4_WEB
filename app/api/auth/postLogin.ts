@@ -12,7 +12,7 @@ export default async function postLogin(body: LoginBodyType) {
 
   const token = response.data.data.token;
 
-  localStorage.setItem("token", token);
+  sessionStorage.setItem("token", token);
 
   return response.data;
 }

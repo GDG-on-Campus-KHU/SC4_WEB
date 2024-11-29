@@ -69,7 +69,7 @@ export default function Header({ isAuthPage }: HeaderProps) {
 }
 
 function Menu({ onClose }: MenuProps) {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const menus = token ? private_menus : public_menus;
 
   return (
