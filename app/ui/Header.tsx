@@ -10,7 +10,8 @@ type HeaderProps = Pick<MenuProps, "isAuthPage">;
 type MenuProps = { isAuthPage: boolean; onClose: () => void };
 
 const common_menus: LinkItemType[] = [
-  { label: "생존가방 바로가기", to: "/main" },
+  { label: "생존가방 체크가기", to: "/main" },
+  { label: "목록으로 체크하기", to: "/list" },
   { label: "만든이들", to: "/about" },
 ];
 
