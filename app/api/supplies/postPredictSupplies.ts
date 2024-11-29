@@ -3,7 +3,7 @@ import { ItemPositionType, item_positions } from "~/ui/Canvas";
 import AxiosInstance from "..";
 
 export default async function postPredictSupplies(imgUrl: string) {
-  const url = "/predict";
+  const url = "http://3.25.72.32:8080/predict";
 
   const response = await AxiosInstance.post<{
     status: string[];
