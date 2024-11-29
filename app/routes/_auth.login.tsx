@@ -1,14 +1,16 @@
+import { Link, useNavigate } from "@remix-run/react";
 import postLogin, { LoginBodyType } from "~/api/auth/postLogin";
 
+import { AxiosError } from "axios";
 import Button from "~/ui/Button";
 import Container from "~/ui/Container";
 import LabelInput from "~/ui/LabelInput";
-import { Link } from "@remix-run/react";
 import { authPaths } from "~/constants/paths";
 import { useInputChange } from "~/hooks/useInputChange";
 import { useState } from "react";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [loginBody, setLoginBody] = useState<LoginBodyType>({
     name: "",
     password: "",
@@ -21,8 +23,14 @@ export default function Login() {
 
     try {
       await postLogin(loginBody);
+      navigate("/main");
     } catch (e) {
-      console.error(e);
+      const error = e as AxiosError;
+      if (error.response) {
+        alert(error.response.data);
+      } else {
+        alert("An unexpected error occurred.");
+      }
     }
   };
 

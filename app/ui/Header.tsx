@@ -1,9 +1,10 @@
+import { Link, useLocation } from "@remix-run/react";
+import { useEffect, useState } from "react";
+
 import Button from "./Button";
-import { Link } from "@remix-run/react";
 import { LinkItemType } from "~/types";
 import MenuIcon from "../assets/icons/menu_hamburger.png";
 import { packPaths } from "~/constants/paths";
-import { useState } from "react";
 
 type HeaderProps = Pick<MenuProps, "isAuthPage">;
 
@@ -12,12 +13,14 @@ type MenuProps = { isAuthPage: boolean; onClose: () => void };
 const common_menus: LinkItemType[] = [
   { label: "생존가방 체크가기", to: "/main" },
   { label: "목록으로 체크하기", to: "/list" },
+  { label: "사진으로 입력하기", to: "/picture" },
   { label: "만든이들", to: "/about" },
 ];
 
 const private_menus: LinkItemType[] = [
   ...common_menus,
-  { label: "로그인하러가기", to: "/login" },
+  { label: "내 결과 보러가기", to: "/result" },
+  { label: "로그아웃", to: "/logout" },
 ];
 
 const public_menus: LinkItemType[] = [
@@ -28,6 +31,12 @@ const public_menus: LinkItemType[] = [
 
 export default function Header({ isAuthPage }: HeaderProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setIsOpenMenu(false);
+  }, [pathname]);
 
   return (
     <header className="absolute top-0 left-0 right-0 h-[60px] flex items-center px-[20px] bg-yellow z-[99999]">
@@ -46,7 +55,8 @@ export default function Header({ isAuthPage }: HeaderProps) {
           />
         ) : (
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsOpenMenu(true);
             }}
           >
@@ -58,8 +68,9 @@ export default function Header({ isAuthPage }: HeaderProps) {
   );
 }
 
-function Menu({ isAuthPage, onClose }: MenuProps) {
-  const menus = isAuthPage ? private_menus : public_menus;
+function Menu({ onClose }: MenuProps) {
+  const token = localStorage.getItem("token");
+  const menus = token ? private_menus : public_menus;
 
   return (
     <nav className="absolute right-0 top-[60px] w-[200px] p-[20px] bg-gray flex flex-col gap-[10px] z-[99999]">

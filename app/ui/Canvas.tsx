@@ -3,7 +3,16 @@ import { useEffect, useRef, useState } from "react";
 import CheckSVG from "~/assets/icons/CheckSVG";
 import pack from "../assets/background.png";
 
-const item_positions = [
+type ItemPositionType = {
+  name: keyof SuppliesType;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  exists: boolean;
+};
+
+export const item_positions: ItemPositionType[] = [
   { name: "ID_card", x: 0, y: 14, width: 100, height: 46, exists: false },
   { name: "candle", x: 0, y: 135, width: 50, height: 100, exists: false },
   { name: "lighter", x: 40, y: 160, width: 50, height: 80, exists: false },
@@ -99,8 +108,14 @@ const item_positions = [
   },
 ];
 
-export default function Canvas() {
-  const [currentPositions, setCurrentPositions] = useState(item_positions);
+type CanvasProps = {
+  currentPositions: ItemPositionType[];
+  setCurrentPositions: React.Dispatch<React.SetStateAction<ItemPositionType[]>>;
+};
+export default function Canvas({
+  currentPositions,
+  setCurrentPositions,
+}: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [reload, setReload] = useState(0);
 

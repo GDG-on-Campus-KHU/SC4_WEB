@@ -10,7 +10,7 @@ export default async function postLogin(body: LoginBodyType) {
 
   const response = await AxiosInstance.post(url, body);
 
-  const token = response.data.token;
+  const token = response.data.data.token;
 
   localStorage.setItem("token", token);
 

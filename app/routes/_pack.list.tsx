@@ -19,9 +19,9 @@ function ListItem({ label }: ListItemProps) {
   );
 }
 
-type ListItemType = { label: string; value: string; exists: boolean };
+export type ListItemType = { label: string; value: string; exists: boolean };
 
-const suppliesList: ListItemType[] = [
+export const suppliesList: ListItemType[] = [
   { label: "신분증", value: "ID_card", exists: false },
   { label: "백팩", value: "backpack", exists: false },
   { label: "담요", value: "blanket", exists: false },
