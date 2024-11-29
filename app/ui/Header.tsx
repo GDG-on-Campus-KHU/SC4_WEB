@@ -29,8 +29,8 @@ export default function Header({ isAuthPage }: HeaderProps) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-[60px] flex items-center px-[20px] bg-yellow z-[99999]">
-      <div className="m-auto w-full max-w-[500px] flex items-center justify-between">
+    <header className="absolute top-0 left-0 right-0 h-[60px] flex items-center px-[20px] bg-yellow z-[99999]">
+      <div className="m-auto w-full flex items-center justify-between">
         <Link to={packPaths.MAIN}>
           <h1 className="text-4xl font-extrabold">
             PACK<span className="text-white">+</span>MATE
@@ -41,7 +41,6 @@ export default function Header({ isAuthPage }: HeaderProps) {
             isAuthPage={isAuthPage}
             onClose={() => {
               setIsOpenMenu(false);
-              console.log("g");
             }}
           />
         ) : (
@@ -62,9 +61,13 @@ function Menu({ isAuthPage, onClose }: MenuProps) {
   const menus = isAuthPage ? private_menus : public_menus;
 
   return (
-    <nav className="fixed right-0 top-[60px] w-[200px] p-[20px] bg-gray flex flex-col gap-[10px] z-[99999]">
+    <nav className="absolute right-0 top-[60px] w-[200px] p-[20px] bg-gray flex flex-col gap-[10px] z-[99999]">
       {menus.map(({ label, to }) => (
-        <Link key={to} to={to}>
+        <Link
+          key={to}
+          to={to}
+          className="px-[10px] hover:bg-darkGray rounded-[8px]"
+        >
           {label}
         </Link>
       ))}

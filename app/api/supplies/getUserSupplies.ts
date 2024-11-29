@@ -1,7 +1,7 @@
 import AxiosInstance from "..";
 
 export default async function getUserSupplies() {
-  const url = "/user";
+  const url = "/v1/user";
 
   const response = await AxiosInstance.get<{
     username: string;
