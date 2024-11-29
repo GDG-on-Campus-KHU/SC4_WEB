@@ -10,8 +10,20 @@ import type { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "PACK+MATE" },
+    {
+      property: "og:title",
+      content: "PACK+MATE",
+    },
+    {
+      name: "description",
+      content: "생존가방 체크리스트 서비스",
+    },
+    {
+      rel: "icon",
+      href: "/path/to/your/favicon.ico",
+      type: "image/x-icon",
+    },
   ];
 };
 
