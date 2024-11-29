@@ -1,20 +1,105 @@
+import { ItemPositionType, item_positions } from "~/ui/Canvas";
+import { Link, useNavigate } from "@remix-run/react";
+import { useEffect, useState } from "react";
+
+import Button from "~/ui/Button";
+import getUserSupplies from "~/api/supplies/getUserSupplies";
+
 export default function PackList() {
+  const navigate = useNavigate();
+  const [currentSuppliesList, setCurrentSuppliesList] =
+    useState(item_positions);
+
+  const onClickSubmit = () => {
+    localStorage.setItem("supplies", JSON.stringify(currentSuppliesList));
+    navigate("/result");
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const suppliesString = localStorage.getItem("supplies");
+        const localSupplies = suppliesString ? JSON.parse(suppliesString) : [];
+
+        const response = await getUserSupplies();
+        const updatedList = item_positions.map((item) => {
+          const localSupply = localSupplies.find(
+            (supply: ItemPositionType) => supply.name === item.name
+          );
+
+          const existsFromLocal = localSupply ? localSupply.exists : false;
+          const existsFromServer =
+            response.supplies[item.name as keyof typeof response.supplies] ===
+            true;
+
+          return {
+            ...item,
+            exists: existsFromLocal || existsFromServer,
+          };
+        });
+
+        setCurrentSuppliesList(updatedList);
+      } catch (error) {
+        console.error("Failed to fetch user supplies:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleCheckboxChange = (value: string) => {
+    setCurrentSuppliesList((prev) =>
+      prev.map((item) =>
+        item.name === value ? { ...item, exists: !item.exists } : item
+      )
+    );
+  };
+
   return (
-    <div className="grid grid-cols-2 gap-y-[20px]">
-      {suppliesList.map((item) => (
-        <ListItem key={item.value} {...item} />
+    <div className="grid grid-cols-2 gap-y-[10px]">
+      {currentSuppliesList.map((item) => (
+        <ListItem
+          key={item.name}
+          label={item.label}
+          value={item.name}
+          isChecked={item.exists}
+          onCheckboxChange={handleCheckboxChange}
+        />
       ))}
+      <Link
+        to="/result"
+        className="absolute left-[20px] right-[20px] bottom-[20px]"
+        onClick={onClickSubmit}
+      >
+        <Button label="저장하고 결과보기" />
+      </Link>
     </div>
   );
 }
 
-type ListItemProps = ListItemType;
+type ListItemProps = {
+  label: string;
+  value: string;
+  isChecked: boolean;
+  onCheckboxChange: (value: string) => void;
+};
 
-function ListItem({ label }: ListItemProps) {
+function ListItem({
+  label,
+  value,
+  isChecked,
+  onCheckboxChange,
+}: ListItemProps) {
   return (
     <div className="flex gap-[10px]">
-      <input type="checkbox" />
-      <label className="text-xl">{label}</label>
+      <label className="flex gap-[10px] text-xl cursor-pointer">
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={() => onCheckboxChange(value)}
+        />
+        {label}
+      </label>
     </div>
   );
 }

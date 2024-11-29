@@ -4,9 +4,11 @@ export default async function getUserSupplies() {
   const url = "/v1/user";
 
   const response = await AxiosInstance.get<{
-    username: string;
-    supplies: SuppliesType;
+    data: {
+      username: string;
+      supplies: SuppliesType;
+    };
   }>(url);
 
-  return response.data;
+  return response.data.data;
 }
