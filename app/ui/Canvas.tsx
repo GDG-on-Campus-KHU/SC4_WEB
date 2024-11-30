@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import CheckSVG from "~/assets/icons/CheckSVG";
 import pack from "../assets/background.png";
@@ -294,7 +294,6 @@ export default function Canvas({
   setCurrentPositions,
 }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [reload, setReload] = useState(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -311,7 +310,9 @@ export default function Canvas({
       ctx.drawImage(img, 0, 0, 350, 700);
 
       currentPositions.forEach(({ x, y, width, height, exists }) => {
-        if (exists) return;
+        if (exists) {
+          return;
+        }
         const imageData = ctx.getImageData(x, y, width, height);
 
         const data = imageData.data;
@@ -328,7 +329,7 @@ export default function Canvas({
         ctx.putImageData(imageData, x, y);
       });
     };
-  }, [currentPositions, reload]);
+  }, [currentPositions]);
 
   const resetCanvas = (index: number) => {
     setCurrentPositions((prev) =>
@@ -336,7 +337,6 @@ export default function Canvas({
         i === index ? { ...item, exists: !item.exists } : item
       )
     );
-    setReload((prev) => prev + 1);
   };
 
   return (

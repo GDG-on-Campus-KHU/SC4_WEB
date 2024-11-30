@@ -1,33 +1,31 @@
 import { ItemPositionType, item_positions } from "~/ui/Canvas";
 
-import AxiosInstance from "..";
+import axios from "axios";
 
-export default async function postPredictSupplies(imgUrl: string) {
-  const url = "http://3.25.72.32:8080/predict";
+export default async function postPredictSupplies(data: FormData) {
+  const url = "http://54.252.244.31:8080/predict";
 
-  const response = await AxiosInstance.post<{
+  const response = await axios.post<{
     status: string[];
     recognized_items: typeof suppliesList;
     missing_items: string[];
-  }>(url, {
-    file: imgUrl,
-  });
+  }>(url, data);
+
   const suppliesString = sessionStorage.getItem("supplies");
-  const localSupplies = suppliesString ? JSON.parse(suppliesString) : [];
+  const localSupplies =
+    suppliesString && suppliesString.length !== 0
+      ? (JSON.parse(suppliesString) as ItemPositionType[])
+      : item_positions;
 
-  const updatedList = item_positions.map((item) => {
-    const localSupply = localSupplies.find((supply: ItemPositionType) =>
-      response.data.recognized_items.includes(supply.name)
-    );
-    const existsFromLocal = localSupply ? localSupply.exists : false;
-
-    return {
-      ...item,
-      exists: existsFromLocal,
-    };
+  const updatedSupplies = localSupplies.map((item) => {
+    console.log(item, 1);
+    if (response.data.recognized_items.includes(item.name)) {
+      console.log(item, 2);
+      return { ...item, exists: true };
+    }
+    return item;
   });
+  sessionStorage.setItem("supplies", JSON.stringify(updatedSupplies));
 
-  sessionStorage.setItem("supplies", JSON.stringify(updatedList));
-
-  return updatedList;
+  return updatedSupplies;
 }

@@ -3,12 +3,11 @@ import React, { useState } from "react";
 import BackgroundImage from "~/ui/BackgroundImage";
 import Button from "~/ui/Button";
 import Container from "~/ui/Container";
-import axios from "axios";
 import postPredictSupplies from "~/api/supplies/postPredictSupplies";
 import { useNavigate } from "@remix-run/react";
 
-const expiration = 300;
-const imgbbApiKey = "5fae1c3b610e555df5a08568afde9431";
+// const expiration = 300;
+// const imgbbApiKey = "5fae1c3b610e555df5a08568afde9431";
 
 export default function PackPicture() {
   const navigate = useNavigate();
@@ -35,14 +34,8 @@ export default function PackPicture() {
 
     try {
       const formData = new FormData();
-      formData.append("image", selectedFile);
-
-      const imageResponse = await axios.post(
-        `https://api.imgbb.com/1/upload?expiration=${expiration}&key=${imgbbApiKey}`,
-        formData
-      );
-
-      await postPredictSupplies(imageResponse.data.data.url);
+      formData.append("file", selectedFile);
+      await postPredictSupplies(formData);
       setSelectedFile(null);
       navigate("/main");
     } catch (uploadError) {
