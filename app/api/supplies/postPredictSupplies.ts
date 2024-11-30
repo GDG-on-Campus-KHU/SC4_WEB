@@ -3,7 +3,7 @@ import { ItemPositionType, item_positions } from "~/ui/Canvas";
 import axios from "axios";
 
 export default async function postPredictSupplies(data: FormData) {
-  const url = "http://54.252.244.31:8080/predict";
+  const url = "https://tmp.junstudy.com/predict";
 
   const response = await axios.post<{
     status: string[];

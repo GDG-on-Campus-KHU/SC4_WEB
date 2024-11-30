@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/predict",
-      "destination": "https://54.252.244.31:8080/predict"
-    },
-    {
       "source": "/:path*",
       "destination": "/index.html"
     }
