@@ -18,9 +18,7 @@ export default async function postPredictSupplies(data: FormData) {
       : item_positions;
 
   const updatedSupplies = localSupplies.map((item) => {
-    console.log(item, 1);
     if (response.data.recognized_items.includes(item.name)) {
-      console.log(item, 2);
       return { ...item, exists: true };
     }
     return item;
